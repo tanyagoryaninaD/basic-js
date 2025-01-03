@@ -20,13 +20,61 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(direction = true) {
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.direction = direction;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  encrypt(message, key) {
+    if (!message || !key) {
+      throw new Error(`Incorrect arguments!`);
+    }
+
+    const arr = message.split('');
+    let countKey = 0;
+
+    const result = arr.map((item) => {
+      if (!this.alphabet.includes(item.toUpperCase())) {
+        return item;
+      }
+      if (countKey >= key.length) {
+        countKey = 0;
+      }
+
+      const indexMessage = this.alphabet.indexOf(item.toUpperCase());
+      const indexKey = this.alphabet.indexOf(key[countKey].toUpperCase());
+      const circleIndex = indexMessage + indexKey - this.alphabet.length;
+      countKey += 1;
+
+      return this.alphabet.at(circleIndex); ;
+    })
+
+    return this.direction ? result.join('') : result.reverse().join('');
+  }
+  decrypt(encryptedMessage, key) {
+    if (!encryptedMessage || !key) {
+      throw new Error(`Incorrect arguments!`);
+    }
+
+    const arr = encryptedMessage.split('');
+    let countKey = 0;
+
+    const result = arr.map((item) => {
+      if (!this.alphabet.includes(item.toUpperCase())) {
+        return item;
+      }
+      if (countKey >= key.length) {
+        countKey = 0;
+      }
+
+      const indexMessage = this.alphabet.indexOf(item.toUpperCase());
+      const indexKey = this.alphabet.indexOf(key[countKey].toUpperCase());
+      const circleIndex = indexMessage - indexKey;
+      countKey += 1;
+      return this.alphabet.at(circleIndex);
+    })
+
+    return this.direction ? result.join('') : result.reverse().join('');
   }
 }
 
