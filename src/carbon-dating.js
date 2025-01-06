@@ -30,7 +30,7 @@ function dateSample(sampleActivity) {
 
   const age = Math.log(MODERN_ACTIVITY / num) / (0.693 / HALF_LIFE_PERIOD);
   
-  return Math.floor(age);
+  return Math.ceil(age);
 }
 
 module.exports = {

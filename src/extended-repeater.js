@@ -19,9 +19,11 @@ function repeater(str, options) {
   const result = new Array(options.repeatTimes).fill(null);
   const separator = options.separator ? options.separator : '+';
   const additionSeparator = options.additionSeparator ? options.additionSeparator : '|';
+  const addition = options.addition === undefined ? null : `${options.addition}`;
 
   return result.map(() => {
-    const additions = new Array(options.additionRepeatTimes).fill(options.addition);
+    const additions = new Array(options.additionRepeatTimes).fill(addition);
+    console.log("🚀 ~ returnresult.map ~ additions:", addition)
     return str + additions.join(`${additionSeparator}`);
   }).join(`${separator}`);
 }
